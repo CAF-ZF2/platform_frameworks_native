@@ -38,6 +38,11 @@ LOCAL_SRC_FILES := \
     DisplayUtils.cpp
 
 LOCAL_CFLAGS := -DLOG_TAG=\"SurfaceFlinger\"
+
+ifeq ($(TARGET_BUILD_VARIANT),userdebug)
+LOCAL_CFLAGS += -DDEBUG_CONT_DUMPSYS
+endif
+
 LOCAL_CFLAGS += -DGL_GLEXT_PROTOTYPES -DEGL_EGLEXT_PROTOTYPES
 
 ifeq ($(TARGET_BOARD_PLATFORM),omap4)
@@ -106,15 +111,16 @@ LOCAL_SHARED_LIBRARIES := \
     libgui \
     libpowermanager
 
-
 ifeq ($(TARGET_USES_QCOM_BSP), true)
-    LOCAL_WHOLE_STATIC_LIBRARIES += libexsurfaceflinger
-    LOCAL_C_INCLUDES += $(ANDROID_BUILD_TOP)/vendor/qcom/opensource/display-frameworks/native/services/surfaceflinger/
     LOCAL_C_INCLUDES += $(call project-path-for,qcom-display)/libgralloc
     LOCAL_C_INCLUDES += $(call project-path-for,qcom-display)/libqdutils
-    LOCAL_C_INCLUDES += vendor/qcom/opensource/display-frameworks/include
     LOCAL_SHARED_LIBRARIES += libqdutils
     LOCAL_CFLAGS += -DQTI_BSP
+    LOCAL_SRC_FILES += \
+        ExSurfaceFlinger/ExLayer.cpp \
+        ExSurfaceFlinger/ExSurfaceFlinger.cpp \
+        ExSurfaceFlinger/ExVirtualDisplaySurface.cpp \
+        ExSurfaceFlinger/ExHWComposer.cpp
 endif
 
 LOCAL_MODULE := libsurfaceflinger
