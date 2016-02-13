@@ -46,7 +46,9 @@
 #include <ExSurfaceFlinger/ExVirtualDisplaySurface.h>
 #include <gralloc_priv.h>
 #endif
+
 #include <dlfcn.h>
+
 #include <cutils/properties.h>
 
 namespace android {
